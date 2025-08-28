@@ -1,0 +1,1 @@
+DATABASE_URL=postgres://Test:...@ep-noisy-flower-846766.us-east-2.aws.neon.tech/TravelTide?sslmode=require
