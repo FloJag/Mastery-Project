@@ -14,11 +14,6 @@ Summarize your project, including key points, insights, and links to relevant da
   - Point out significant trends or anomalies.
   - Add recommendations if relevant.
 
-**Links to Files / Dashboards**:
-  - Executive Summary ---------------------
-  - Tableau Public Visualization ----------------
-  - Google Sheets Visualization 
-
 ## Database Connection
 This project uses a hosted PostgreSQL instance.  
 
@@ -82,6 +77,10 @@ The SQL analysis was designed in multiple steps:
 
     This structured prioritization ensures that users are not only assigned to one segment, but also to the one that best reflects their dominant behavior and characteristics.
 
+8. **Define and add Perks to the segment groups**
+  For each segment I defined one perfectly fitted perks which will force them to join the reward programm.
+  For example: For Seniors it's often hard to use online plattform. So I will offer them a easy booking-mode, where they have a simplified user-interface and a customer support especially for their purposes. 
+
 ## Segmentation ##
 The goal of the segmentation was to group users based on their predominant travel behavior, derived from the engineered features.
 
@@ -96,6 +95,9 @@ Alternative methods such as clustering (e.g., k-means) or unsupervised machine l
 - allows the segmentation to be directly translated into business logic, which is essential for marketing actions and reward program design.
 
 By using this approach, I can guarantee that the final segments are both analytically robust and actionable for business strategy.
+
+**NOTE**
+I focused on averages of numerical features to capture users’ dominant behavior. This ensures that segments include only users who truly fit the profile (e.g., a traveler who sometimes flies alone and sometimes with family will not be labeled as a “typical” solo or family traveler, so they must be assigned to a different segment).
 
 **Segments I choosed:**
   - Dreamer
@@ -121,8 +123,32 @@ By using this approach, I can guarantee that the final segments are both analyti
 | **Senior**                | `is_old_age * 0.8 + has_bookings * 0.2`                                                       |
    
 
-**NOTE**
-I focused on averages of numerical features to capture users’ dominant behavior. This ensures that segments include only users who truly fit the profile (e.g., a traveler who sometimes flies alone and sometimes with family will not be labeled as a “typical” solo or family traveler, so they must be assigned to a different segment).
+
+## Perks in Detail ##
+**Dreamer:** 
+Low-cost-trial (Test trip for low cost - up to 50% off)
+
+**Frequent Flyer:** 
+Streak Rewards (5 Flights within 6 Months -> Reward Points or Discounts)
+
+**Long distance traveler:**
+Extra Points for long-distance flights (extra Points to unlock speciell discounts)
+
+**Business:** 
+Instant-Rescheduling & Flexible Cancellation (without fees)
+
+**Luxury:**
+Exclusive Concierge Services (i.e. VIP pickup service)
+
+**Family:**
+30% Off for groups >= 3 with children
+
+**Weekender:**
+Weekend deals with one excursion for free 
+
+**Seniors:**
+Easy Booking-Mode -> simplified user interface, dedicated customer service and more features
+
 
 ## Outliers and Anomalies ##
 During the data preparation phase, several anomalies were identified in the dataset (e.g., negative values for nights, or missing discount amounts although discount = TRUE). These issues were addressed through data cleaning, primarily by replacing invalid values with averages or imputing them with contextually appropriate values.
