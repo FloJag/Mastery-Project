@@ -26,8 +26,8 @@ This project uses a hosted PostgreSQL instance.
 The SQL analysis was designed in multiple steps:
 
 1. **Create the table that fits the requirement for the analysis:**
-   - 1. Requirement: Only Data after January 4th, 2023 
-   - 2. Requirement: Only Users with more than 7 sessions
+   - Requirement 1: Only Data after January 4th, 2023 
+   - Requirement 2 : Only Users with more than 7 sessions
     
     ***Filter sessions from 2023***
     - Created a CTE `sessions_2023` to only work with recent sessions starting after January 4th,   2023.  
@@ -35,24 +35,24 @@ The SQL analysis was designed in multiple steps:
 
     ***Identify active users***
     - CTE `mehr_7_sessions` selects only users with more than 7 sessions.  
-       Reasoning: infrequent users don’t provide reliable behavioral data and shouldn't be part of the analysis
+      - Reasoning: infrequent users don’t provide reliable behavioral data and shouldn't be part of the analysis
 
 2. **Cleaning the data**  
    - Calculated `nights_cleaned` (handling negative values) using return_time  
-      Assumption: Nights are calculated with Check Out time -> Sometimes incorrect Entry in Check Out time
+      - Assumption: Nights are calculated with Check Out time -> Sometimes incorrect Entry in Check Out time
    - Handling missing in flight_dicount & hotel_discount by using the average of all discount values
-      Assumption: Amount entry was forgotten
+      - Assumption: Amount entry was forgotten
 
 3. **Add additional features & flags**
     - Added features like *price per person*, *price per km*, *length of session*, *booking_type*, *flight_distance* and *age*
-      Reasoning: these features are crucial for later segmentation.
+      - Reasoning: these features are crucial for later segmentation.
     - Created a flag `trip_was_cancelled` that marks an entire trip as cancelled if any booking was cancelled. 
-      Reasoning: This prevents partial cancellations from being overlooked.
+      - Reasoning: This prevents partial cancellations from being overlooked.
 
 4. **Aggregated user-level view**  
    - Aggregate browsing travel behavior as well as specific demografical user information
    - Aggregated avgerages of seats, prices, bags, nights and more to build the basic features I need for the final ones.  
-      Purpose: to compare travel behavior across different demographic groups.
+      - Purpose: to compare travel behavior across different demographic groups.
 
 5. **Create one table with the final user features (which are needed for the segmentation)**
     - Aggregated all pre-build features to the final features for the segmentation groups
@@ -65,9 +65,9 @@ The SQL analysis was designed in multiple steps:
     
 
 7. **Create Logic to assign the users to a segment group**
-    To assign each user to a unique segment, I developed a set of CASE WHEN statements that compare the calculated segment scores. The order of these statements is critical, as some users may achieve similar scores across multiple segments. In such cases, the order ensures that users are consistently assigned to the most representative segment.
+To assign each user to a unique segment, I developed a set of CASE WHEN statements that compare the calculated segment scores. The order of these statements is critical, as some users may achieve similar scores across multiple segments. In such cases, the order ensures that users are consistently assigned to the most representative segment.
 
-    The sequence of assignment follows a clear rationale:
+  The sequence of assignment follows a clear rationale:
 
     - Single-criteria groups first: Segments that can only be defined by one distinct feature (e.g., age-based groups) are prioritized, as no alternative indicators exist to describe them.
 
