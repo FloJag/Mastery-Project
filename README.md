@@ -26,12 +26,12 @@ This project uses a hosted PostgreSQL instance.
 The SQL analysis was designed in multiple steps:
 
 1. **Create the table that fits the requirement for the analysis:**
-   - Requirements: Only Data after January 4th, 2023 
-                   Only Users with more than 7 sessions
+   - 1. Requirement: Only Data after January 4th, 2023 
+   - 2. Requirement: Only Users with more than 7 sessions
     
     ***Filter sessions from 2023***
     - Created a CTE `sessions_2023` to only work with recent sessions starting after January 4th,   2023.  
-    - This ensures the analysis focuses on the latest behavior.
+      - This ensures the analysis focuses on the latest behavior.
 
     ***Identify active users***
     - CTE `mehr_7_sessions` selects only users with more than 7 sessions.  
