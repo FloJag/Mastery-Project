@@ -26,8 +26,8 @@ This project uses a hosted PostgreSQL instance.
 The SQL analysis was designed in multiple steps:
 
 1. **Create the table that fits the requirement for the analysis:**
-  - Requirement 1: Only Data after January 4th, 2023 
-  -  Requirement 2 : Only Users with more than 7 sessions
+   - Requirement 1: Only Data after January 4th, 2023 
+   - Requirement 2 : Only Users with more than 7 sessions
     
     ***Filter sessions from 2023***
     - Created a CTE `sessions_2023` to only work with recent sessions starting after January 4th,   2023.  
@@ -38,48 +38,48 @@ The SQL analysis was designed in multiple steps:
       - Reasoning: infrequent users don’t provide reliable behavioral data and shouldn't be part of the analysis
 
 2. **Cleaning the data**  
-  - Calculated `nights_cleaned` (handling negative values) using return_time  
-    - Assumption: Nights are calculated with Check Out time -> Sometimes incorrect Entry in Check Out time
-  - Handling missing in flight_dicount & hotel_discount by using the average of all discount values
-    - Assumption: Amount entry was forgotten
+   - Calculated `nights_cleaned` (handling negative values) using return_time  
+      - Assumption: Nights are calculated with Check Out time -> Sometimes incorrect Entry in Check Out time
+   - Handling missing in flight_dicount & hotel_discount by using the average of all discount values
+      - Assumption: Amount entry was forgotten
 
 3. **Add additional features & flags**
-  - Added features like *price per person*, *price per km*, *length of session*, *booking_type*, *flight_distance* and *age*
-    - Reasoning: these features are crucial for later segmentation.
-  - Created a flag `trip_was_cancelled` that marks an entire trip as cancelled if any booking was cancelled. 
-    - Reasoning: This prevents partial cancellations from being overlooked.
+    - Added features like *price per person*, *price per km*, *length of session*, *booking_type*, *flight_distance* and *age*
+      - Reasoning: these features are crucial for later segmentation.
+    - Created a flag `trip_was_cancelled` that marks an entire trip as cancelled if any booking was cancelled. 
+      - Reasoning: This prevents partial cancellations from being overlooked.
 
 4. **Aggregated user-level view**  
-  - Aggregate browsing travel behavior as well as specific demografical user information
-  - Aggregated avgerages of seats, prices, bags, nights and more to build the basic features I need for the final ones.  
-    - Purpose: to compare travel behavior across different demographic groups.
+   - Aggregate browsing travel behavior as well as specific demografical user information
+   - Aggregated avgerages of seats, prices, bags, nights and more to build the basic features I need for the final ones.  
+      - Purpose: to compare travel behavior across different demographic groups.
 
 5. **Create one table with the final user features (which are needed for the segmentation)**
-  - Aggregated all pre-build features to the final features for the segmentation groups
-      i.e. is_frequent_flyer, is_weekender, is_long_distanz_traveler 
+    - Aggregated all pre-build features to the final features for the segmentation groups
+       i.e. is_frequent_flyer, is_weekender, is_long_distanz_traveler 
 
 6. **Create scores and set weights**
-  - After the process of building the final features I built the segments
-  - Assign weights to the specific features to ensure each feature has his own importance within a group 
+    - After the process of building the final features I built the segments
+    - Assign weights to the specific features to ensure each feature has his own importance within a group 
       (i.e. in my opinion the feature "traveled_more_2_persons" has more importance in the segment "Family" then the feature "is_married, so I gave it a higher weight)
     
 
 7. **Create Logic to assign the users to a segment group**
-  To assign each user to a unique segment, I developed a set of CASE WHEN statements that compare the calculated segment scores. The order of these statements is critical, as some users may achieve similar scores across multiple segments. In such cases, the order ensures that users are consistently assigned to the most representative segment.
+    To assign each user to a unique segment, I developed a set of CASE WHEN statements that compare the calculated segment scores. The order of these statements is critical, as some users may achieve similar scores across multiple segments. In such cases, the order ensures that users are consistently assigned to the most representative segment.
 
-  The sequence of assignment follows a clear rationale:
+    The sequence of assignment follows a clear rationale:
 
-    - Single-criteria groups first: Segments that can only be defined by one distinct feature (e.g., age-based groups) are prioritized, as no alternative indicators exist to describe them.
+      - Single-criteria groups first: Segments that can only be defined by one distinct feature (e.g., age-based groups) are prioritized, as no alternative indicators exist to describe them.
 
-    - High-spending groups next: Luxury and business travelers are considered before other groups, as their spending behavior sets them apart most clearly.
+      - High-spending groups next: Luxury and business travelers are considered before other groups, as their spending behavior sets them apart most clearly.
 
-    - Family travelers: Families typically generate higher expenses due to longer stays and larger group sizes, which places them ahead of segments like weekenders or seniors.
+      - Family travelers: Families typically generate higher expenses due to longer stays and larger group sizes, which places them ahead of segments like weekenders or seniors.
 
-  This structured prioritization ensures that users are not only assigned to one segment, but also to the one that best reflects their dominant behavior and characteristics.
+    This structured prioritization ensures that users are not only assigned to one segment, but also to the one that best reflects their dominant behavior and characteristics.
 
 8. **Define and add Perks to the segment groups**
-  For each segment I defined one perfectly fitted perks which will force them to join the reward programm.
-  - For example: For Seniors it's often hard to use online plattform. So I will offer them a easy booking-mode, where they have a simplified user-interface and a customer support especially for their purposes. 
+    For each segment I defined one perfectly fitted perks which will force them to join the reward programm.
+    - For example: For Seniors it's often hard to use online plattform. So I will offer them a easy booking-mode, where they have a simplified user-interface and a customer support especially for their purposes. 
 
 ## Segmentation ##
 The goal of the segmentation was to group users based on their predominant travel behavior, derived from the engineered features.
