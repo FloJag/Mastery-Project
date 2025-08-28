@@ -17,7 +17,7 @@ Summarize your project, including key points, insights, and links to relevant da
 **Links to Files / Dashboards**:
   - Executive Summary ---------------------
   - Tableau Public Visualization ----------------
-  - Google Sheets Visualization -------------
+  - Google Sheets Visualization 
 
 ## Database Connection
 This project uses a hosted PostgreSQL instance.  
