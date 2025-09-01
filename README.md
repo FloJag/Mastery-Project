@@ -7,12 +7,14 @@ This project analyzes user assignments to the perks (rewards program) using SQL 
 Define segment group of the users from Travel Tide and find perfectly fitted Perks that force them to join the reward programm.
 
 ## Project Summary
-Summarize your project, including key points, insights, and links to relevant dashboards or docs.
+The project aimed to derive user-level insights from a session-based dataset and classify travelers into distinct customer segments. These segments serve as the foundation for assigning tailored perks that encourage users to join a reward program.
 
-- **Key Points and Insights**:
-  - Highlight the main findings from your SQL analysis.
-  - Point out significant trends or anomalies.
-  - Add recommendations if relevant.
+**Key Points and Insights:**
+- Data preparation revealed anomalies (e.g., negative nights values), which were corrected to ensure consistency.
+- Segmentation was based on travel and browsing behavior, using categorical thresholds (percentiles and binary features).
+- The analysis highlighted a strong presence of business and family travelers, while also identifying smaller but relevant groups such as luxury travelers, frequent flyers, and dreamers.
+- Outliers were intentionally retained, as they reflect meaningful traveler behavior (e.g., very high spending or long-distance travel).
+- Example insight: Family travelers showed consistently higher group sizes, suggesting perks related to family-oriented services would be highly attractive.
 
 ## Database Connection
 This project uses a hosted PostgreSQL instance.  
@@ -153,4 +155,4 @@ Easy Booking-Mode -> simplified user interface, dedicated customer service and m
 ## Outliers and Anomalies ##
 During the data preparation phase, several anomalies were identified in the dataset (e.g., negative values for nights, or missing discount amounts although discount = TRUE). These issues were addressed through data cleaning, primarily by replacing invalid values with averages or imputing them with contextually appropriate values.
 
-To further investigate potential anomalies, boxplots were generated in Tableau to analyze the distribution of variables and detect outliers. After careful consideration, I decided not to remove the outliers from the dataset. The rationale behind this choice is that certain extreme values may reflect meaningful traveler behavior (e.g., luxury travelers with exceptionally high spending, or long-distance travelers with unusually high flight distances). Removing these observations could distort the data and limit the possibility of building relevant customer segments. 
+To further investigate potential anomalies, boxplots and histrograms were generated in Tableau to analyze the distribution of variables and detect outliers. After careful consideration, I decided not to remove the outliers from the dataset. The rationale behind this choice is that certain extreme values may reflect meaningful traveler behavior (e.g., luxury travelers with exceptionally high spending, or long-distance travelers with unusually high flight distances). Removing these observations could distort the data and limit the possibility of building relevant customer segments. 
