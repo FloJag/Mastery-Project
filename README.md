@@ -32,7 +32,7 @@ The SQL analysis was designed in multiple steps:
    - Requirement 2 : Only Users with more than 7 sessions
     
     ***Filter sessions from 2023***
-    - Created a CTE `sessions_2023` to only work with recent sessions starting after January 4th,   2023.  
+    - Created a CTE `sessions_2023` to only work with recent sessions starting after January 4th, 2023.  
       - This ensures the analysis focuses on the latest behavior.
 
     ***Identify active users***
@@ -40,7 +40,7 @@ The SQL analysis was designed in multiple steps:
       - Reasoning: infrequent users don’t provide reliable behavioral data and shouldn't be part of the analysis
 
 2. **Cleaning the data**  
-   - Calculated `nights_cleaned` (handling negative values) using return_time  
+   - Calculated `nights_cleaned` (handling negative values) using return_time or times -1
       - Assumption: Nights are calculated with Check Out time -> Sometimes incorrect Entry in Check Out time
    - Handling missing in flight_dicount & hotel_discount by using the average of all discount values
       - Assumption: Amount entry was forgotten
@@ -113,7 +113,7 @@ I focused on averages of numerical features to capture users’ dominant behavio
 
 ## Segment Features Overview
 
-| **Segment**               | **Features (mit Gewichtung)**                                                                 |
+| **Segment**               | **Weighted Features)**                                                                 |
 |---------------------------|-----------------------------------------------------------------------------------------------|
 | **Dreamer**               | `is_dreamer = 1`                                                                              |
 | **Frequent Flyer**        | `is_frequent_flyer = 1`                                                                       |
@@ -149,7 +149,7 @@ Exclusive Concierge Services (i.e. VIP pickup service)
 Weekend deals with one excursion for free 
 
 **Seniors:**
-Easy Booking-Mode -> simplified user interface, dedicated customer service and more features
+Local Senior Support and Travlering for free -> One Local in the destination for extra support
 
 
 ## Outliers and Anomalies ##
