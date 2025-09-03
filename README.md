@@ -44,6 +44,7 @@ The SQL analysis was designed in multiple steps:
       - Assumption: Nights are calculated with Check Out time -> Sometimes incorrect Entry in Check Out time
    - Handling missing in flight_dicount & hotel_discount by using the average of all discount values
       - Assumption: Amount entry was forgotten
+      
 
 3. **Add additional features & flags**
     - Added features like *price per person*, *price per km*, *length of session*, *booking_type*, *flight_distance* and *age*
@@ -67,7 +68,7 @@ The SQL analysis was designed in multiple steps:
     
 
 7. **Create Logic to assign the users to a segment group**
-    To assign each user to a unique segment, I developed a set of CASE WHEN statements that compare the calculated segment scores. The order of these statements is critical, as some users may achieve similar scores across multiple segments. In such cases, the order ensures that users are consistently assigned to the most representative segment.
+    - To assign each user to a unique segment, I developed a set of CASE WHEN statements that compare the calculated segment scores. The order of these statements is critical, as some users may achieve similar scores across multiple segments. In such cases, the order ensures that users are consistently assigned to the most representative segment.
 
     The sequence of assignment follows a clear rationale:
 
@@ -80,8 +81,13 @@ The SQL analysis was designed in multiple steps:
     This structured prioritization ensures that users are not only assigned to one segment, but also to the one that best reflects their dominant behavior and characteristics.
 
 8. **Define and add Perks to the segment groups**
-    For each segment I defined one perfectly fitted perks which will force them to join the reward programm.
-    - For example: For Seniors it's often hard to use online plattform. So I will offer them a easy booking-mode, where they have a simplified user-interface and a customer support especially for their purposes. 
+    - For each segment I defined one perfectly fitted perk which will force them to join the reward programm.
+    - For example: For Seniors it's often hard to be on a long trip due to their age. A Local Support with free tranportation will help them to enjoy the trip more.
+
+## Outliers and Anomalies ##
+During the data preparation phase, several anomalies were identified in the dataset (e.g., negative values for nights, or missing discount amounts although discount = TRUE). These issues were addressed through data cleaning, primarily by replacing invalid values with averages or imputing them with contextually appropriate values.
+
+To further investigate potential anomalies, boxplots and histrograms were generated in Tableau to analyze the distribution of variables and detect outliers. After careful consideration, I decided not to remove the outliers from the dataset. The rationale behind this choice is that certain extreme values may reflect meaningful traveler behavior (e.g., luxury travelers with exceptionally high spending, or long-distance travelers with unusually high flight distances). Removing these observations could distort the data and limit the possibility of building relevant customer segments. 
 
 ## Segmentation ##
 The goal of the segmentation was to group users based on their predominant travel behavior, derived from the engineered features.
@@ -149,10 +155,17 @@ Exclusive Concierge Services (i.e. VIP pickup service)
 Weekend deals with one excursion for free 
 
 **Seniors:**
-Local Senior Support and Travlering for free -> One Local in the destination for extra support
+Local Senior Support and transportation for free -> One Local in the destination for extra support
 
+## Recommendation / Conclusion ##
 
-## Outliers and Anomalies ##
-During the data preparation phase, several anomalies were identified in the dataset (e.g., negative values for nights, or missing discount amounts although discount = TRUE). These issues were addressed through data cleaning, primarily by replacing invalid values with averages or imputing them with contextually appropriate values.
+This analysis provides a solid foundation for customer segmentation and the design of tailored perks to drive engagement with Travel Tide’s reward program. By deriving user groups from behavioral and demographic data, the project outlines clear segments such as Families, Business Travelers, Seniors, or Frequent Flyers and matches them with targeted benefits that are likely to resonate with their needs.
 
-To further investigate potential anomalies, boxplots and histrograms were generated in Tableau to analyze the distribution of variables and detect outliers. After careful consideration, I decided not to remove the outliers from the dataset. The rationale behind this choice is that certain extreme values may reflect meaningful traveler behavior (e.g., luxury travelers with exceptionally high spending, or long-distance travelers with unusually high flight distances). Removing these observations could distort the data and limit the possibility of building relevant customer segments. 
+However, this segmentation should be understood as a starting point rather than a final solution. The assignment of perks is currently based on reasoned assumptions derived from the available data. Before scaling the program to all users, it is essential to validate these assumptions through A/B testing and controlled pilots.
+
+**Key recommendations going forward:**
+
+- Test & Validate: Launch A/B Testing for all Perks in all groups gain insightful data about the fit to the group 
+- Monitor Results: Track KPIs such as new user sign-ups, reward program participation, booking frequency, and revenue growth.
+- Iterative Optimization: Continuously refine both the segmentation rules and the assigned perks based on observed performance and user feedback.
+- Scalability: Once validated, gradually roll out the reward program to larger user groups, ensuring technical feasibility and business impact.
