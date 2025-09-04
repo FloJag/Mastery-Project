@@ -3,8 +3,8 @@
 ## Project Description
 This project analyzes user assignments to the perks (rewards program) using SQL queries to identify key trends and insights.
 
-## Project Goal ##
-Define segment group of the users from Travel Tide and find perfectly fitted Perks that force them to join the reward programm.
+## Project Goal 
+Define segment group of the users from Travel Tide and find perfectly fitted Perks that force them to join the reward program.
 
 ## Project Summary
 The project aimed to derive user-level insights from a session-based dataset and classify travelers into distinct customer segments. These segments serve as the foundation for assigning tailored perks that encourage users to join a reward program.
@@ -17,12 +17,15 @@ The project aimed to derive user-level insights from a session-based dataset and
 - Example insight: Family travelers showed consistently higher group sizes, suggesting perks related to family-oriented services would be highly attractive.
 
 ## Database Connection
-This project uses a hosted PostgreSQL instance.  
+This project uses a hosted PostgreSQL instance as the main data source.  
 
 - Connection string should be stored in `config/` as:
   DATABASE_URL=postgres://<username>:<password>@<host>/<dbname>?sslmode=require
 
-  Please replace with your own.
+  Please replace with your own credentials.
+
+All data preparation, feature engineering, and segmentation steps were carried out directly with SQL queries on this database.  
+The processed results were then exported and visualized in Tableau for exploratory analysis and distribution checks.
 
 ## Approach & Reasoning
 The SQL analysis was designed in multiple steps:
@@ -42,7 +45,7 @@ The SQL analysis was designed in multiple steps:
 2. **Cleaning the data**  
    - Calculated `nights_cleaned` (handling negative values) using return_time or times -1
       - Assumption: Nights are calculated with Check Out time -> Sometimes incorrect Entry in Check Out time
-   - Handling missing in flight_dicount & hotel_discount by using the average of all discount values
+   - Handling missing in flight_discount & hotel_discount by using the average of all discount values
       - Assumption: Amount entry was forgotten
       
 
@@ -53,13 +56,13 @@ The SQL analysis was designed in multiple steps:
       - Reasoning: This prevents partial cancellations from being overlooked.
 
 4. **Aggregated user-level view**  
-   - Aggregate browsing travel behavior as well as specific demografical user information
-   - Aggregated avgerages of seats, prices, bags, nights and more to build the basic features I need for the final ones.  
+   - Aggregate browsing travel behavior as well as demografic user information
+   - Aggregated averages of seats, prices, bags, nights and more to build the basic features I need for the final ones.  
       - Purpose: to compare travel behavior across different demographic groups.
 
 5. **Create one table with the final user features (which are needed for the segmentation)**
-    - Aggregated all pre-build features to the final features for the segmentation groups
-       i.e. is_frequent_flyer, is_weekender, is_long_distanz_traveler 
+    - Aggregated all pre-built features to the final features for the segmentation groups
+       i.e. is_frequent_flyer, is_weekender, is_long_distance_traveler 
 
 6. **Create scores and set weights**
     - After the process of building the final features I built the segments
@@ -81,18 +84,18 @@ The SQL analysis was designed in multiple steps:
     This structured prioritization ensures that users are not only assigned to one segment, but also to the one that best reflects their dominant behavior and characteristics.
 
 8. **Define and add Perks to the segment groups**
-    - For each segment I defined one perfectly fitted perk which will force them to join the reward programm.
-    - For example: For Seniors it's often hard to be on a long trip due to their age. A Local Support with free tranportation will help them to enjoy the trip more.
+    - For each segment I defined one perfectly fitted perk which will force them to join the reward program.
+    - For example: For Seniors it's often hard to be on a long trip due to their age. A Local Support with free transportation will help them to enjoy the trip more.
 
-## Outliers and Anomalies ##
+## Outliers and Anomalies
 During the data preparation phase, several anomalies were identified in the dataset (e.g., negative values for nights, or missing discount amounts although discount = TRUE). These issues were addressed through data cleaning, primarily by replacing invalid values with averages or imputing them with contextually appropriate values.
 
-To further investigate potential anomalies, boxplots and histrograms were generated in Tableau to analyze the distribution of variables and detect outliers. After careful consideration, I decided not to remove the outliers from the dataset. The rationale behind this choice is that certain extreme values may reflect meaningful traveler behavior (e.g., luxury travelers with exceptionally high spending, or long-distance travelers with unusually high flight distances). Removing these observations could distort the data and limit the possibility of building relevant customer segments. 
+To further investigate potential anomalies, boxplots and histograms were generated in Tableau to analyze the distribution of variables and detect outliers. After careful consideration, I decided not to remove the outliers from the dataset. The rationale behind this choice is that certain extreme values may reflect meaningful traveler behavior (e.g., luxury travelers with exceptionally high spending, or long-distance travelers with unusually high flight distances). Removing these observations could distort the data and limit the possibility of building relevant customer segments. 
 
-## Segmentation ##
+## Segmentation
 The goal of the segmentation was to group users based on their predominant travel behavior, derived from the engineered features.
 
-For this project, I applied the weighted segmentation approach. Instead of working with continuous values, I defined clear thresholds and percentiles to transform behavioral indicators into binary variables (0/1). This ensures that each user is assigned to the segment that most strongly reflects their primary travel pattern, rather than with continouos variables, where the lower the better
+For this project, I applied the weighted segmentation approach. Instead of working with continuous values, I defined clear thresholds and percentiles to transform behavioral indicators into binary variables (0/1). This ensures that each user is assigned to the segment that most strongly reflects their primary travel pattern, rather than with continuous variables, where the lower the better
 
 **Why weighted segmentation with only 0/1 variables?**
 
@@ -107,7 +110,7 @@ By using this approach, I can guarantee that the final segments are both analyti
 **NOTE**
 I focused on averages of numerical features to capture users’ dominant behavior. This ensures that segments include only users who truly fit the profile (e.g., a traveler who sometimes flies alone and sometimes with family will not be labeled as a “typical” solo or family traveler, so they must be assigned to a different segment).
 
-**Segments I choosed:**
+**Segments I chosen:**
   - Dreamer
   - Frequent Flyer
   - Long Distance Traveler
@@ -132,7 +135,7 @@ I focused on averages of numerical features to capture users’ dominant behavio
    
 
 
-## Perks in Detail ##
+## Perks in Detail
 **Dreamer:** 
 Low-cost-trial (Test trip for low cost - up to 50% off)
 
@@ -155,17 +158,20 @@ Exclusive Concierge Services (i.e. VIP pickup service)
 Weekend deals with one excursion for free 
 
 **Seniors:**
-Local Senior Support and transportation for free -> One Local in the destination for extra support
+Local support services and transportation for free 
 
-## Recommendation / Conclusion ##
+## Recommendation / Conclusion
 
 This analysis provides a solid foundation for customer segmentation and the design of tailored perks to drive engagement with Travel Tide’s reward program. By deriving user groups from behavioral and demographic data, the project outlines clear segments such as Families, Business Travelers, Seniors, or Frequent Flyers and matches them with targeted benefits that are likely to resonate with their needs.
 
-However, this segmentation should be understood as a starting point rather than a final solution. The assignment of perks is currently based on reasoned assumptions derived from the available data. Before scaling the program to all users, it is essential to validate these assumptions through A/B testing and controlled pilots.
+However, this segmentation should be understood as a starting point rather than a final solution. The assignment of perks is currently based on reasoned assumptions derived from the available data. It should also be noted that the analysis is based on a filtered dataset (only sessions after January 4th, 2023 and only users with more than seven sessions). This ensures focus on active and recent users, but it also means the insights may not be fully representative of the entire Travel Tide user base.  
+
+Before scaling the program to all users, it is essential to validate these assumptions through A/B testing and controlled pilots.
 
 **Key recommendations going forward:**
 
 - Test & Validate: Launch A/B Testing for all Perks in all groups gain insightful data about the fit to the group 
-- Monitor Results: Track KPIs such as new user sign-ups, reward program participation, booking frequency, and revenue growth.
+  -  Important: also test for segment overlaps, e.g., if some users could reasonably belong to both "Family" and "Weekender". This ensures perks are truly exclusive and effective.
+- Monitor Results: Track KPIs such as new user conversions, reward program participation, booking frequency, and revenue growth.
 - Iterative Optimization: Continuously refine both the segmentation rules and the assigned perks based on observed performance and user feedback.
 - Scalability: Once validated, gradually roll out the reward program to larger user groups, ensuring technical feasibility and business impact.
