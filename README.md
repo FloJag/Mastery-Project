@@ -1,4 +1,4 @@
-# Reward Program Analysis for Travel Tide
+# Segmentation Analysis for Travel Tide
 
 ## Project Description
 This project analyzes user assignments to the perks (rewards program) using SQL queries to identify key trends and insights.
