@@ -1,13 +1,13 @@
 # Segmentation Analysis for Travel Tide
 
 ## Project Description
-This project analyzes user behavior with SQL to define customer segments and assign tailored perks for a new rewards program.
+This project focuses on analyzing Travel Tide’s user behavior with SQL to prepare the design of a new rewards program. The analysis aims to transform raw session and booking data into actionable insights for marketing and product strategy.
 
-## Project Goal 
-Identify distinct user segments within Travel Tide’s customer base and develop targeted perks that maximize engagement and drive participation in the reward program.
+## Project Goal
+Identify distinct user segments within Travel Tide’s customer base and design tailored perks that maximize engagement and drive participation in the rewards program.
 
 ## Project Summary
-The project aimed to derive user-level insights from a session-based dataset and classify travelers into distinct customer segments. These segments serve as the foundation for assigning tailored perks that encourage users to join a reward program.
+Using session-based data, I derived user-level insights and grouped travelers into distinct customer segments based on their browsing and booking behavior. These segments form the basis for matching users with personalized perks that encourage adoption of the rewards program.
 
 **Key Points and Insights:**
 - Data preparation revealed anomalies (e.g., negative nights values), which were corrected to ensure consistency.
