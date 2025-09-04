@@ -36,11 +36,11 @@ The SQL analysis was designed in multiple steps:
     
     ***Filter sessions from 2023***
     - Created a CTE `sessions_2023` to only work with recent sessions starting after January 4th, 2023.  
-      - This ensures the analysis focuses on the latest behavior.
+      - Reasoning: This ensures the analysis focuses on the latest behavior.
 
     ***Identify active users***
-    - CTE `mehr_7_sessions` selects only users with more than 7 sessions.  
-      - Reasoning: infrequent users don’t provide reliable behavioral data and shouldn't be part of the analysis
+    - Created CTE `mehr_7_sessions` selects only users with more than 7 sessions.  
+      - Reasoning: Infrequent users don’t provide reliable behavioral data and shouldn't be part of the analysis
 
 2. **Cleaning the data**  
    - Calculated `nights_cleaned` (handling negative values) using return_time or times -1
