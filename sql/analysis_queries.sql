@@ -346,7 +346,7 @@ mehr_7_sessions as (
            WHEN segment = 'Luxury' THEN 'Exclusive Concierge Service'
            WHEN segment = 'Family' THEN '30% discount for groups of >= 3 with children'
            WHEN segment = 'Weekender' THEN 'exclusive Weekenddeals'
-           WHEN segment = 'Senior' THEN 'Local Senior Support with free transportation'
+           WHEN segment = 'Senior' THEN 'Local support services with free transportation'
            END
            AS Perks
   FROM check_values
